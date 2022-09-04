@@ -1,0 +1,33 @@
+.button {
+  border: none;
+  outline: none;
+  padding: 0.5rem 0.7rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  position: relative;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  width: max-content;
+  /* text-transform: uppercase; */
+}
+
+.secondary_btn {
+  background-color: white;
+}
+
+.secondary_btn.blue_btn {
+  color: var(--primary-blue);
+}
+
+.secondary_btn.pink_btn {
+  color: var(--primary-pink);
+}
+
+.primary_btn.blue_btn {
+  background-color: var(--primary-blue);
+}
+
+.primary_btn.pink_btn {
+  background-color: var(--primary-pink);
+}
