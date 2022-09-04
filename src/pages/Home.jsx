@@ -78,7 +78,7 @@ const Home = () => {
     const ansArray = [];
     let ansLength = 0;
 
-    Object.keys(answers).map((key) => {
+    Object.keys(answers).forEach((key) => {
       ansArray.push({
         question: questions[key - 1].question,
         answer: answers[key],
@@ -86,7 +86,7 @@ const Home = () => {
     });
 
     const reviewRes = await addDoc(collection(db, "reviews"), {
-      response: ansArray,
+      response: ansLength === 0 ? "" : ansArray,
       id: "",
       completed: ansLength === questions.length ? true : false,
     });
@@ -100,6 +100,7 @@ const Home = () => {
     setModalIsOpen(false);
     setIsLoading(false);
     setExitScreen(true);
+    localStorage.clear();
 
     // console.log(ansArray);
   };
@@ -130,18 +131,22 @@ const Home = () => {
       {welcomeScreen && (
         <div className="welcome">
           <h1>Welcome to the survey.</h1>
-          <p>Click on the below button to start the survey.</p>
-          <PrimaryButton
-            label="Start"
-            color="blue"
-            onClick={() => {
-              setWelcomeScreen(false);
-              setQuestionScreen(true);
-            }}
-          />
+          {questions && (
+            <div>
+              <p>Click on the below button to start the survey.</p>
+              <PrimaryButton
+                label="Start"
+                color="blue"
+                onClick={() => {
+                  setWelcomeScreen(false);
+                  setQuestionScreen(true);
+                }}
+              />
+            </div>
+          )}
         </div>
       )}
-      {questionScreen && questions && (
+      {questionScreen && questions.length && (
         <div className="container">
           <div className="question_container">
             <div className="question_header">
@@ -185,13 +190,17 @@ const Home = () => {
               </div>
             </div>
             <div className="buttons_container">
-              <PrimaryButton
-                label="Prev"
-                color="pink"
-                onClick={() =>
-                  setQuestionNumber((prev) => (prev > 1 ? prev - 1 : 1))
-                }
-              />
+              {questionNumber !== 1 ? (
+                <PrimaryButton
+                  label="Prev"
+                  color="pink"
+                  onClick={() =>
+                    setQuestionNumber((prev) => (prev > 1 ? prev - 1 : 1))
+                  }
+                />
+              ) : (
+                <div></div>
+              )}
               <div>
                 <PrimaryButton
                   label={`${
